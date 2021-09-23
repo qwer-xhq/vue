@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <h2 :style="{opacity}">{{text}}</h2>
+  </div>
+
+  <script>
+    //创建Vue实例,得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        text: '一段文字',
+        opacity: 1,
+        opacity_change: 0.01
+      },
+      methods: {
+
+      },
+      computed: {
+      },
+      mounted() {
+        // console.log('透明度改变');
+        // setInterval(() => {
+        //   this.opacity -= this.opacity_change;
+        //   if (this.opacity <= 0) {
+        //     this.opacity_change = -this.opacity_change
+        //   } else if (this.opacity >= 1) {
+        //     this.opacity_change = -this.opacity_change
+        //   }
+        // }, 36);
+      },
+      beforeCreate() {
+        console.log('beforeCreate')
+        console.log(this);
+        // debugger;
+      },
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div v-html='str'></div>
+    <ul>
+      <li v-for="(item,index) in hobbyArr" :key="index">{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="(item,index) in hobbyObj" :key="index">{{item}}</li>
+    </ul>
+    <h2>{{val}}</h2>
+    <button @click='val++'>点击val+1</button>
+    <input type="text" v-fbind:value='val'>
+  </div>
+
+  <script>
+
+    //创建Vue实例,得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        hobbyArr: ['抽烟', '喝酒', '烫头'],
+        hobbyObj: {
+          h1: '读书',
+          h2: '弹钢琴',
+          h3: '唱歌'
+        },
+        str: '<h2>文本</h2>',
+        val: 0,
+      },
+      methods: {
+
+      },
+      watch: {
+        hobbyObj: {
+          handler() {
+            console.log('hobbyObj修改了', this);
+          },
+          deep: true
+        },
+      },
+
+      directives: {
+        fbind: {
+          bind(element, binding) {
+            element.value = binding.value
+          },
+          inserted(element, binding) {
+            element.focus()
+          },
+          update(element, binding) {
+            element.value = binding.value
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

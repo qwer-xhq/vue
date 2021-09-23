@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./js/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+
+  </div>
+
+  <script>
+
+    const student = Vue.extend({
+      template: `
+      <div>
+        <h2>你好！</h2>
+        <button @click='func'>this</button>
+      </div> 
+      `,
+      methods: {
+        func(){
+          console.log(this);
+        }
+      }
+    })
+
+
+    //创建Vue实例,得到 ViewModel
+    var vm = new Vue({
+      template: `
+        <div>
+          <h1>组件模板</h1>
+          <student></student>
+        </div>
+        
+      `,
+      el: '#app',
+      data: {
+        
+      },
+      methods: {},
+      components: {
+        student
+      }
+    });
+  </script>
+</body>
+
+</html>
