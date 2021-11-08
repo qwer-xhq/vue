@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let todoList=[
+      {name:'001',option:'吃饭',complete:true},
+      {name:'002',option:'打游戏',complete:true},
+      {name:'003',option:'睡觉',complete:true},
+      {name:'004',option:'看电视',complete:true},
+    ]
+    function delCheckAll(){
+      for(let n=0;n<todoList.length;n++){
+        if(todoList[n].complete){
+          todoList.splice(n,1)
+          n--
+        }
+      }
+    }
+    delCheckAll()
+    console.log(todoList);
+  </script>
+</body>
+</html>
