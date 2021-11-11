@@ -1,29 +1,35 @@
 <template>
   <div id="home">
     <NavBar class="home-nav"><template v-slot:center>购物街</template></NavBar>
+    <HomeSwiper :banners="banners"></HomeSwiper>
+    <recommend-view :recommends="recommends"></recommend-view>
   </div>
 </template>
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
   import {getHomeMultidata} from "network/home";
+  import HomeSwiper from "./childComps/HomeSwiper";
+  import RecommendView from "./childComps/RecommendView";
 
   export default {
     name: "Home",
     components: {
       NavBar,
+      HomeSwiper,
+      RecommendView,
     },
     data(){
       return {
         banners:[],
-        recommend:[],
+        recommends:[],
       }
     },
     created() {
       getHomeMultidata().then(res => {
         // console.log(res);
         this.banners = res.data.banner.list
-        this.recommend = res.data.recommend.list
+        this.recommends = res.data.recommend.list
       })
     }
   }
