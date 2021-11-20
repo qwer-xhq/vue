@@ -25,6 +25,7 @@
     methods: {
       active(index){
         this.currentIndex=index
+        this.$emit('changeType',index)
       }
     }
   }
