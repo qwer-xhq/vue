@@ -135,7 +135,6 @@
 
       // 记录不同类型页面位置
       goodsTypePos(position){
-        console.log('---');
         if(position.y<-this.hoverNavoffsetTop){
           switch(this.currentType) {
             case 'pop':
