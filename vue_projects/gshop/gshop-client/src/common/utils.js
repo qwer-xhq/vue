@@ -8,3 +8,15 @@ export function debounce(func, delay) {
     }, delay);
   }
 }
+
+// 节流函数
+export function throtte(func, delay) {
+  let activeTime = 0;
+  return function () {
+    const current = Date.now();
+    if (current - activeTime > delay) {
+      func.apply(this, arguments);
+      activeTime = Date.now();
+    }
+  };
+}

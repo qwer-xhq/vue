@@ -27,11 +27,12 @@
       }
     },
     methods: {
+      // 滚动到指定位置
       scrollTo(x, y, time=300) {
         this.scroll && this.scroll.scrollTo(x, y, time)
       },
       refresh(){
-        console.log('图片加载完刷新');
+        console.log('图片加载完并刷新');
         this.scroll && this.scroll.refresh()
       }
     },

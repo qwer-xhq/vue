@@ -37,6 +37,7 @@
     justify-content: space-around;
     align-items: center;
     background-color: #eee;
+    width: 100%;
     height: 40px;
   }
   .hover-nav span {
