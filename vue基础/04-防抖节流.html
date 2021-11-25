@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #content{
+            width: 400px;
+            height: 400px;
+            background-color: bisque;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div id = "content"></div>
+</body>
+<script>
+    let e = document.getElementById("content");
+    n=0;
+    let fn = function(){
+        e.innerHTML = n++
+    }
+
+    //防抖
+    function debounce(fn, delay, atBegin = true) {
+        let timer = null, last = 0,during;
+        return function () {
+            let self = this, args = arguments;
+            var exec = function () {
+                fn.apply(self, args);
+                // console.log(self,args);
+            }
+            if (atBegin && !timer) {
+                exec();
+                atBegin = false;
+            } else {
+                during = Date.now() - last;
+                if (during > delay) {
+                    console.log('@@@')
+                    exec();
+                } else {
+                    console.log('***');
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(function () {
+                        exec();
+                        console.log('---');
+                    }, delay);
+                }
+            }
+            last = Date.now();
+        }
+    }
+    e.addEventListener("pointermove",debounce(fn,500));
+</script>
+</html>

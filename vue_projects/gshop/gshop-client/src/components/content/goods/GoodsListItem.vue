@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="">
+    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
     <div>
       <p>{{goodsItem.title}}</p>
       <p>
@@ -22,7 +22,18 @@
           return {}
         }
       }
-    }
+    },
+    methods: {
+      imageLoad() {
+        this.$nextTick(() => {
+          this.$root.$emit('goodsImageLoad')
+        })
+        
+      }
+    },
+    mounted() {
+      
+    },
   }
 </script>
 

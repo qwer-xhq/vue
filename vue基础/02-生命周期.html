@@ -28,7 +28,17 @@
       },
       computed: {
       },
+      beforeCreate() {
+        console.log('beforeCreate',this)
+        // debugger;
+      },
+      created() {
+        console.log('created',this)
+        // debugger
+      },
       mounted() {
+        console.log('--');
+        console.log('mounted',this);
         // console.log('透明度改变');
         // setInterval(() => {
         //   this.opacity -= this.opacity_change;
@@ -39,10 +49,11 @@
         //   }
         // }, 36);
       },
-      beforeCreate() {
-        console.log('beforeCreate')
-        console.log(this);
-        // debugger;
+      beforeDestroy() {
+        console.log('beforeDestroy');
+      },
+      destroyed() {
+        console.log('destroyed');
       },
     });
   </script>
