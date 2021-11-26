@@ -55,7 +55,8 @@
           new: {page: 0, list:[]},
           sell: {page: 0, list:[]}
         },
-        currentType:'pop',
+        currentType:'pop', // 当前商品Type
+        previousType: 'pop', // 上一个商品Type
         isShowBackTop: false,
         isShowHoverNav: false,
         timer: null,
@@ -63,9 +64,13 @@
         saveY: 0,
         goodsY: {
           popY: 0,
+          popMaxY: 0,
           newY: 0,
+          newMaxY: 0,
           sellY: 0,
-        }
+          sellMaxY: 0,
+        },
+        currTypeMaxY: 0
       }
     },
     computed: {
@@ -79,42 +84,71 @@
        */
       // 切换不同类型数据
       changeType(index){
+        this.$refs.scroll.refresh()
+        // 获取切换时当前滚动位置
+        const posY = this.$refs.scroll.scroll.y
+        const maxY = this.$refs.scroll.scroll.maxScrollY
+        // 记录不同商品Type页面切换时位置
+        this.changeTypePos(posY,maxY)
+        // 获取当前商品Type，并跳转到当前页上一次切换时位置
         switch(index){
           case 0:
             this.currentType = 'pop'
+            this.previousType = this.currentType //将当前Type记录为切换前一个Type
             // this.$refs.scroll.refresh()
+            this.$refs.scroll.scroll.maxScrollY = this.goodsY.popMaxY
             this.$refs.scroll.scrollTo(0, this.goodsY.popY, 0)
             break
           case 1:
             this.currentType = 'new'
+            this.previousType = this.currentType
             // this.$refs.scroll.refresh()
+            this.$refs.scroll.scroll.maxScrollY = this.goodsY.newMaxY
             this.$refs.scroll.scrollTo(0, this.goodsY.newY, 0)
             break
           case 2:
             this.currentType = 'sell'
+            this.previousType = this.currentType
             // this.$refs.scroll.refresh()
+            this.$refs.scroll.scroll.maxScrollY = this.goodsY.sellMaxY
             this.$refs.scroll.scrollTo(0, this.goodsY.sellY, 0)
             break
         }
         this.$refs.hoverNav1.currentIndex = index
         this.$refs.hoverNav2.currentIndex = index
-        
+
       },
+      // 记录不同类型页面切换时位置
+      changeTypePos(posY,maxY){
+        switch (this.previousType) {
+          case 'pop':
+            this.goodsY.popMaxY = maxY
+            this.goodsY.popY = posY
+            break;
+          case 'new':
+            this.goodsY.newMaxY = maxY
+            this.goodsY.newY = posY
+            break;
+          case 'sell':
+            this.goodsY.sellMaxY = maxY
+            this.goodsY.sellY = posY
+            break;
+        }
+      },
+        
       // 返回顶部
       backTop() {
         this.$refs.scroll.scrollTo(0, 0, 500)
       },
       // 滚动监听
       scroll(position){
+        // console.log(position.y);
         // 滑动到一定距离显示返回顶部按钮
         this.isShowBackTop = (-position.y) > 1000
 
         // 判断hoverNav是否吸顶
         this.isShowHoverNav = (-position.y) > (this.hoverNavoffsetTop-this.$refs.navBar.$el.offsetHeight)
 
-        // 调用获取不同类型页面位置方法
-        this.getGoodsTypePos(position)
-        
       },
       // 加载更多数据
       loadMore(){
@@ -126,28 +160,12 @@
         }, 500);
       },
       swiperImageLoad(){
+        // 获取hoverNav位置
         this.hoverNavoffsetTop = this.$refs.hoverNav2.$el.offsetTop
         // 不同类型商品页位置赋初始值
-        for(let item in this.goodsY){
-          this.goodsY[item] = -this.hoverNavoffsetTop
-        }
-      },
-
-      // 记录不同类型页面位置
-      goodsTypePos(position){
-        if(position.y<-this.hoverNavoffsetTop){
-          switch(this.currentType) {
-            case 'pop':
-              this.goodsY.popY = position.y
-              break
-            case 'new':
-              this.goodsY.newY = position.y
-              break
-            case 'sell':
-              this.goodsY.sellY = position.y
-              break
-          }
-        }
+        this.goodsY.popY = -this.hoverNavoffsetTop
+        this.goodsY.newY = -this.hoverNavoffsetTop
+        this.goodsY.sellY = -this.hoverNavoffsetTop
       },
       /**
        * 网络请求相关方法
@@ -165,7 +183,6 @@
           this.goods[type].page=page
         })
       },
-
     },
     created() {
       this.getHomeMultidata()
@@ -181,27 +198,21 @@
       this.$root.$on('goodsImageLoad',() => {
         refresh()
       })
-      // 防抖获取不同类型页面位置
-      this.getGoodsTypePos = debounce(this.goodsTypePos,20)
+      setTimeout(() => {
+        this.goodsY.popMaxY = this.$refs.scroll.scroll.maxScrollY
+        this.goodsY.newMaxY = this.$refs.scroll.scroll.maxScrollY
+        this.goodsY.sellMaxY = this.$refs.scroll.scroll.maxScrollY
+      }, 500);
+      
     },
     activated() {
       console.log('activated');
       this.$refs.scroll.refresh()
-      this.$refs.scroll.scrollTo(0, this.saveY, 0)
+      this.$refs.scroll.scrollTo(0,this.saveY, 0)
     },
     deactivated() {
       console.log('deactivated');
-      switch(this.currentType) {
-        case 'pop':
-          this.saveY = this.goodsY.popY
-          break
-        case 'new':
-          this.saveY = this.goodsY.newY
-          break
-        case 'sell':
-          this.saveY = this.goodsY.sellY
-          break
-      }
+      this.saveY = this.$refs.scroll.scroll.y
     },
     beforeDestroy() {
       console.log('Home beforeDestroy');
