@@ -32,7 +32,7 @@
         this.scroll && this.scroll.scrollTo(x, y, time)
       },
       refresh(){
-        console.log('图片加载完并刷新');
+        
         this.scroll && this.scroll.refresh()
       }
     },
@@ -53,11 +53,14 @@
         })
         // 监听上拉事件
         this.scroll.on('scrollEnd',() => {  // 监听pullingUp事件，需要将pullUpLoad属性设为true才能监听，监听scrollEnd不用设置
+          console.log('scroll.y=',this.scroll.y);
+          console.log('maxScrollY=',this.scroll.maxScrollY);
           if(this.scroll.y <= (this.scroll.maxScrollY + 50)){
             console.log('上拉');
             this.$emit('pullingUp')
             // this.scroll.finishPullUp() // 完成上拉动作，设置下次上拉不起效果,scrollEnd不用设置
           }
+          
         })
       })
     },
