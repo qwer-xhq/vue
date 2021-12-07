@@ -28,6 +28,10 @@ const routes = [
   {
     path: '/profile',
     component: Profile
+  },
+  {
+    path: '/detail/:id',
+    component: () => import ('views/detail/Detail')
   }
 ]
 

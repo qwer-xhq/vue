@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad">
+  <div class="goods-item" @click="itemClick">
+    <img :src="showImage" alt="" @load="imageLoad">
     <div>
       <p>{{goodsItem.title}}</p>
       <p>
@@ -23,16 +23,22 @@
         }
       }
     },
+    computed: {
+      showImage(){
+        return this.goodsItem.image || this.goodsItem.show.img
+      }
+    },
     methods: {
+      // 图片加载完成时触发
       imageLoad() {
-        this.$nextTick(() => {
-          this.$root.$emit('goodsImageLoad')
-        })
-        
+        this.$root.$emit('goodsImageLoad')
+      },
+      itemClick(){
+        this.$router.push('/detail/'+ this.goodsItem.iid)
       }
     },
     mounted() {
-      
+
     },
   }
 </script>

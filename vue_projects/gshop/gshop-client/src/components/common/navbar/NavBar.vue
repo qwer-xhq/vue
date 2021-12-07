@@ -19,12 +19,6 @@
     line-height: 44px;
     text-align: center;
     box-shadow: 0 1px 1px rgba(100,100,100,.3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 3;
   }
   .left,.right {
     width: 60px;

@@ -9,6 +9,7 @@
 </template>
 
 <script>
+  import {debounce} from 'common/utils.js'
   import {Swiper,SwiperItem} from "components/common/swiper"
 
   export default {
@@ -32,12 +33,15 @@
     },
     methods: {
       imageLoad(){
-        if (!this.isLoad) {
-          this.$emit('swiperImageLoad')
-          this.isLoad = true
-        }
-        
+        // if (!this.isLoad) {
+        //   this.$emit('swiperImageLoad')
+        //   this.isLoad = true
+        // }
+        this.swiperImageLoad('swiperImageLoad')
       }
+    },
+    mounted() {
+      this.swiperImageLoad = debounce(this.$emit,100)
     },
   }
 </script>

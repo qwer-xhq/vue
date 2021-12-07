@@ -20,6 +20,7 @@
 
 <script>
   import {debounce} from '@/common/utils.js'
+  import {itemListenerMixin} from '@/common/mixin.js'
 
   import NavBar from 'components/common/navbar/NavBar'
   import Scroll from 'components/common/scroll/Scroll'
@@ -70,9 +71,9 @@
           sellY: 0,
           sellMaxY: 0,
         },
-        currTypeMaxY: 0
       }
     },
+    // mixins: [itemListenerMixin],
     computed: {
       showGoods(){
         return this.goods[this.currentType].list
@@ -159,10 +160,11 @@
           this.getHomeGoods(this.currentType)
         }, 500);
       },
+
       swiperImageLoad(){
         // 获取hoverNav位置
         this.hoverNavoffsetTop = this.$refs.hoverNav2.$el.offsetTop
-        // 不同类型商品页位置赋初始值
+        // 不同类型商品页位置赋初值
         this.goodsY.popY = -this.hoverNavoffsetTop
         this.goodsY.newY = -this.hoverNavoffsetTop
         this.goodsY.sellY = -this.hoverNavoffsetTop
@@ -181,6 +183,7 @@
         getHomeGoods(type,page).then(res => {
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page=page
+          // console.log('加载完成');
         })
       },
     },
@@ -193,30 +196,39 @@
 
     },
     mounted() {
-      console.log('Home mounted');
+      console.log('home mounted');
+      
+      // const refresh = debounce(this.$refs.scroll.refresh,200)
+      // this.$root.$on('goodsImageLoad',() => {
+      //   refresh()
+      // })
+
+      // 初始化不同Type页面maxY
+      this.$root.$once('initMaxY',maxY => {
+        this.goodsY.popMaxY = maxY
+        this.goodsY.newMaxY = maxY
+        this.goodsY.sellMaxY = maxY
+        console.log('initMaxY');
+      })
+
+    },
+    activated() {
+      console.log('home active');
+      // this.$refs.scroll.refresh()
+      this.$refs.scroll.scrollTo(0,this.saveY, 0)
+
       const refresh = debounce(this.$refs.scroll.refresh,200)
       this.$root.$on('goodsImageLoad',() => {
         refresh()
       })
-      setTimeout(() => {
-        this.goodsY.popMaxY = this.$refs.scroll.scroll.maxScrollY
-        this.goodsY.newMaxY = this.$refs.scroll.scroll.maxScrollY
-        this.goodsY.sellMaxY = this.$refs.scroll.scroll.maxScrollY
-      }, 500);
-      
-    },
-    activated() {
-      console.log('activated');
-      this.$refs.scroll.refresh()
-      this.$refs.scroll.scrollTo(0,this.saveY, 0)
     },
     deactivated() {
-      console.log('deactivated');
+      // console.log('home deactivated');
       this.saveY = this.$refs.scroll.scroll.y
+      this.$root.$off('goodsImageLoad')
     },
     beforeDestroy() {
-      console.log('Home beforeDestroy');
-      this.$root.$off('goodsImageLoad')
+      
     },
   }
 </script>
@@ -230,6 +242,12 @@
   .home-nav {
     background-color: var(--color-tint);
     color: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 3;
   }
   .content {
     height: calc(100%);

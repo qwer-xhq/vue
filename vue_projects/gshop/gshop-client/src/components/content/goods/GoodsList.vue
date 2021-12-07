@@ -19,6 +19,9 @@
         }
       }
     },
+    methods: {
+
+    },
   }
 </script>
 
