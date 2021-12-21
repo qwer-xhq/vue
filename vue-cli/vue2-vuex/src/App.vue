@@ -34,9 +34,6 @@ export default {
   ul{
     list-style: none;
   }
-  li{
-    margin-bottom: 3px;
-  }
   #app{
     display: flex;
     margin: 20px 0 0 20px;
@@ -44,6 +41,14 @@ export default {
   .category{
     margin-right: 10px;
     /* border:2px solid black; */
-    background-color: aquamarine;
+    background-color: pink;
+  }
+  .category li{
+    margin-top: 5px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  .category li:hover{
+    background-color: #eee;
   }
 </style>

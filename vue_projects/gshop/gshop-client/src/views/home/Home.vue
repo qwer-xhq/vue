@@ -14,20 +14,20 @@
       <HoverNav :titles="['流行','新款','精选']" @changeType='changeType' v-show="!isShowHoverNav" ref="hoverNav2"></HoverNav>
       <GoodsList :goods="showGoods"></GoodsList>
     </Scroll>
-    <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop>
+    <BackTop @click.native="backTop" v-show="isShowBackTop"></BackTop> <!-- native让组件可以使用原生点击事件 -->
   </div>
 </template>
 
 <script>
   import {debounce} from '@/common/utils.js'
-  import {itemListenerMixin} from '@/common/mixin.js'
+  import {backTopMixin} from '@/common/mixin.js'
 
   import NavBar from 'components/common/navbar/NavBar'
   import Scroll from 'components/common/scroll/Scroll'
 
   import HoverNav from 'components/content/hoverNav/HoverNav'
   import GoodsList from 'components/content/goods/GoodsList'
-  import BackTop from 'components/content/backTop/BackTop'
+  
 
   import HomeSwiper from "./childComps/HomeSwiper";
   import RecommendView from "./childComps/RecommendView";
@@ -45,7 +45,7 @@
       HoverNav,
       GoodsList,
       Scroll,
-      BackTop,
+      
     },
     data(){
       return {
@@ -58,7 +58,7 @@
         },
         currentType:'pop', // 当前商品Type
         previousType: 'pop', // 上一个商品Type
-        isShowBackTop: false,
+        // isShowBackTop: false,
         isShowHoverNav: false,
         timer: null,
         hoverNavoffsetTop: null,
@@ -73,7 +73,7 @@
         },
       }
     },
-    // mixins: [itemListenerMixin],
+    mixins: [backTopMixin],
     computed: {
       showGoods(){
         return this.goods[this.currentType].list
@@ -115,6 +115,7 @@
             this.$refs.scroll.scrollTo(0, this.goodsY.sellY, 0)
             break
         }
+        // 使两个hoverNav状态保持一致
         this.$refs.hoverNav1.currentIndex = index
         this.$refs.hoverNav2.currentIndex = index
 
@@ -138,9 +139,9 @@
       },
         
       // 返回顶部
-      backTop() {
-        this.$refs.scroll.scrollTo(0, 0, 500)
-      },
+      // backTop() {
+      //   this.$refs.scroll.scrollTo(0, 0, 500)
+      // },
       // 滚动监听
       scroll(position){
         // console.log(position.y);
@@ -158,7 +159,7 @@
         this.timer = setTimeout(() => {
           console.log('加载更多');
           this.getHomeGoods(this.currentType)
-        }, 500);
+        }, 1000);
       },
 
       swiperImageLoad(){
@@ -196,7 +197,7 @@
 
     },
     mounted() {
-      console.log('home mounted');
+      // console.log('home mounted');
       
       // const refresh = debounce(this.$refs.scroll.refresh,200)
       // this.$root.$on('goodsImageLoad',() => {
@@ -208,12 +209,12 @@
         this.goodsY.popMaxY = maxY
         this.goodsY.newMaxY = maxY
         this.goodsY.sellMaxY = maxY
-        console.log('initMaxY');
+        // console.log('initMaxY');
       })
 
     },
     activated() {
-      console.log('home active');
+      // console.log('home active');
       // this.$refs.scroll.refresh()
       this.$refs.scroll.scrollTo(0,this.saveY, 0)
 

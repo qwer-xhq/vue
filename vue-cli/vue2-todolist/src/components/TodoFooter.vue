@@ -19,6 +19,7 @@ export default {
   methods: {
     checkAllTodo(e){
       // this.checkAll(e.target.checked)
+      // console.log(e.target.checked);
       this.$emit('checkAll',e.target.checked)
     },
     delCheckAll(){
