@@ -25,7 +25,7 @@
     },
     computed: {
       showImage(){
-        return this.goodsItem.show?.img || this.goodsItem.image  // "?"前面的访问的属性有值则继续访问，否则返回undefined
+        return this.goodsItem.show?.img || this.goodsItem.image || this.goodsItem.img // "?"前面的访问的属性有值则继续访问，否则返回undefined
       }
     },
     methods: {

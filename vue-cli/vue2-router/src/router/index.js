@@ -37,8 +37,8 @@ const routes = [
             // props: true
 
             // props的第三种写法，值为函数,函数会收到$route的值
-            props({params:{id,title}}){ // 解构赋值写法
-              return {id,title}
+            props({params:{id:a,title:b}}){ // 解构赋值写法,a和b相当于变量重命名，将id和title的值赋值给a,b
+              return {a,b}
             },
             // 独享路由守卫，只有前置，没有后置
             beforeEnter: (to, from, next) => {

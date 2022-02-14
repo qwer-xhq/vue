@@ -215,7 +215,7 @@
     },
     activated() {
       // console.log('home active');
-      // this.$refs.scroll.refresh()
+      this.$refs.scroll.refresh()
       this.$refs.scroll.scrollTo(0,this.saveY, 0)
 
       const refresh = debounce(this.$refs.scroll.refresh,200)

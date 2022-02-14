@@ -47,7 +47,7 @@
         // 创建better-scroll对象
         this.scroll = new BScroll(this.$refs.wrapper,{
           probeType: this.probeType,
-          // observeDOM: true,
+          observeDOM: true,
           // observeImage: true, //页面图片加载完成在执行refresh
           click: true,
           mouseWheel: true,
