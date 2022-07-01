@@ -50,7 +50,6 @@
       DetailCommentInfo,
 	    GoodsList,
       DetailBottomBar,
-      Scroll,
       // Toast,
     },
     data() {

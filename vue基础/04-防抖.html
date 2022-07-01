@@ -21,32 +21,39 @@
     let e = document.getElementById("content");
     n=0;
     let fn = function(){
+        console.log('加1')
         e.innerHTML = n++
     }
 
     //防抖
+    /* 
+    * timer: 定时器
+    * last: 最后一次滑动时间
+    * during: 停止后再次滑动时间间隔 */
     function debounce(fn, delay, atBegin = true) {
         let timer = null, last = 0,during;
         return function () {
             let self = this, args = arguments;
+            // 执行任务
             var exec = function () {
                 fn.apply(self, args);
                 // console.log(self,args);
             }
             if (atBegin && !timer) {
+                console.log('第一次执行');
                 exec();
                 atBegin = false;
             } else {
                 during = Date.now() - last;
                 if (during > delay) {
-                    console.log('@@@')
+                    console.log('时间间隔大于规定时间，执行任务')
                     exec();
                 } else {
-                    console.log('***');
+                    console.log('时间间隔不够，清除定时器');
                     if (timer) clearTimeout(timer);
                     timer = setTimeout(function () {
                         exec();
-                        console.log('---');
+                        console.log('任务执行后');
                     }, delay);
                 }
             }
